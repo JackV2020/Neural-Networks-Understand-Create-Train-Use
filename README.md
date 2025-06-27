@@ -10,20 +10,18 @@ This project is licensed under the terms of the Unlicense.
 
 # Neural Networks
 
-I wrote this story to explain neural networks in an easy understandable way and it ends with a working command line application and a working web application.
+I wrote this story to explain neural networks as I understand them in an easy understandable way and it ends with a working command line application and a working web application.
 
 The command line tool analyzes simple pictures. The web application allows you to upload pictures and shows the analysis results on the web page.
-When you run it on a mobile the web application allows you to take a picture and upload that for analysis.
+When you run the web application on a mobile it allows you to take a picture and upload that for analysis.
 
-Everything you need to run both the applications is in the **code directory** so you do not need to build the model yourself if you do not want to.
+Everything you need to create and train the neural network and run both applications is in the **code directory** so you do not need to create these yourself. I did my utmost to write operating system independent code so I trust everything runs on Windows too.
 
-Today is a hot sunny day in June 2025, and I have a bright and shiny state‑of‑the‑art laptop from 2005 (only 20 years young!) with an i7 processor and 8 GB of RAM, running Lubuntu on a modest 255 GB SSD, yes the disk was replaced once it was affordable.
+Today is a hot sunny day in July 2025, and I have a bright and shiny state‑of‑the‑art laptop from 2005 (only 20 years young!) with an i7 processor and 8 GB of RAM, running Lubuntu on a modest 255 GB SSD, yes the disk was replaced once it was affordable.
 
 That’s what I’m using to write this an used to get the network up and running with python.
 
-The web application runs on a Raspberry Pi 3B with 1 GB memory. I do not train neural networks on that Pi because I do not want to mistreat it.
-
-While official temperatures rise above 35 °C and everyone stays in a cool environment, I start with some very simple but handy math.
+While official temperatures rise above 35 °C and everyone stays in a cool environment, I start with some very simple math.
 
 "Don’t panic" the neural network will do the math for us in the end, but first we need to understand how to tell it what to do.
 
@@ -31,7 +29,7 @@ During the explanation you may even think, “hmmm, that’s handy”.
 
 So first, we look at the math. Then we dive into a very simple example of what we could use a neural network for and how it uses the math.
 
-We have a theoretical basic neural network with just one single element a **neuron** and understand how it works.
+After this we have a theoretical basic neural network with just one single element a **neuron** and understand how it works.
 
 Then we look at a python script of 5 lines to demonstrate how we can implement the complete math for the neural network.
 
@@ -39,15 +37,17 @@ After that we create a script to create a very simple picture in a file and anot
 
 Next we’ll expand the idea to use more neurons and discuss a more advanced network.
 
-By then, you’ll have the basic knowledge to assemble a neural network and realize that building one from scratch is an immense job. You might even feel it's impossible without help.
+By then, you’ll have the basic knowledge to assemble a real neural network and realize that building one from scratch is an immense job. You might even feel it's impossible without a Guide.
 
-We could could continue without help but, modest as we are, we accept the help to create, train and use a real neural network on my bright and shiny laptop and also how to use it in a web application running on a Raspberry Pi.
+We could could continue without, but modest as we are, we accept the help to avoid that we throw ourselves at the ground and miss...
+
+So with some help we create, train and use a real neural network on my bright and shiny laptop and also create a command line tool and a web application to use the neural network.
 
 ---
 
 ## Some math made simple
 
-Before jumping into neural networks, I’ll explain some math in a simple way, using basic examples.
+Before jumping into neural networks, I’ll explain some math in a simple way, using basic examples so I understand it myself.
 
 Let’s imagine we have a grocery store and we only sell 3 products: apples, pears, and potatoes.
 
@@ -164,18 +164,18 @@ which results in size    (columns P x rows W)
 result                   (columns R x rows R)
 result                          matrix R
 
-So for a multiplication of a 1 x 3 with a 3 x 1 matrix you end up with a 1 x 1 matrix.
+So for a multiplication of a 1 x 3 with a 3 x 1 matrix like before we end up with a 1 x 1 matrix.
 
-Our calculation above : [2, 0, 1] × [2, 1, 5]^T = 9 is such a multiplication.
+And for a 4 x 1 and 1 x 4 you also get a 1 x 1 matrix which is the answer to our question:
 
-We will see that we need matrices with many more values than 3 for neural networks.
+[2, 7, 3, 2] x [5, 2, 4, 3] = 10 + 14 + 12 + 6 = 42
 ```
 
 ---
 
-### Our neural‑network example
+### Our neural network example
 
-Imagine a 'high‑definition :smiley:' camera that captures a 4×4 = 16 pixel black‑and‑white picture.
+Imagine a 'high‑definition' :smiley: camera that captures a 4×4 = 16 pixel black and white picture.
 
 We want to detect how many of the 4 central pixels are white (e.g. indicating something is in the center).
 
@@ -190,7 +190,7 @@ p8  p9  p10 p11
 p12 p13 p14 p15
 ```
 
-Our input picture with a center white is a mask and is the base for `w0` to `w15`:
+Our input picture with a center white is the base for `w0` to `w15`:
 
 ```
 0 0 0 0
@@ -255,16 +255,15 @@ Remember this 'tuning the weights to get what we want' as training the neural ne
 
 I needed a long title for this section since the code is only 5 lines and 3 lines do the work.
 
-We are about to create a python script to do the matrix multiplication:
+We are about to create a python script with numpy to do the matrix multiplication.
 
-```
-R = p0 x w0 + ... + p15 x w15
-# or in vector form: P · W which is known as 'dot multiplication'
-```
+numpy is short for Numerical Python which supports matrix calculations.
 
-Create a script matrix.py which uses the module `numpy`:
+In the beginning I mentioned that it is a script of 5 lines.
 
-(numpy is short for Numerical Python which supports matrix calculations)
+We can discuss this length for a "long time" because there are some empty lines, the first line is borrowing something, then 2 lines we need to have something to do and at last a line which only shows off what we achieved.
+
+Anuway, create a script with the next in it and save it with the name matrix.py:
 
 ```python
 import numpy as np
@@ -279,7 +278,7 @@ print(f"Percentage white: {round(R * 100)}%")
 
 Run the script with 'python3 matrix.py'
 
-This could print 'Percentage white: 25%' or report an error because the numpy module is missing.
+This could print 'Percentage white: 25%' or report an error because there is "something missing" like the numpy module.
 
 Do not 'pip install numpy' to install numpy because...
 
@@ -296,21 +295,28 @@ So do the next:
 
     after this you run pip from your virtual environment :
 
-        source path/to/venv
+        source path-to-venv
         pip install numpy
         deactivate
 
     that's all, or in a one-liner:
 
-        my_venv/bin/pip install numpy
+        on Linux   : my_venv/bin/pip install numpy
+        on Windows : my_venv\Scripts\pip.exe install numpy
 
     you can run the script the same way:
 
-        my_venv/bin/python3 matrix.py
+        on Linux   : my_venv/bin/python3 matrix.py
+        on Windows : my_venv\Scripts\python.exe matrix.py
+        
+Note the difference between Linux and Windows.
 
+In the future I will only use the 'one-liner form for Linux syntax' but remember to use the Windows syntax on Windows.
+
+I can not believe that I wrote the previous sentence but once said, you can not unsay things can you?
 ```
 
-Now you can tell everybody that you created a neural network using a virtual environment. :smiley:
+By now you can tell everybody in the universe that you created a neural network using a virtual environment. :smiley:
 
 ---
 
@@ -318,30 +324,34 @@ Now you can tell everybody that you created a neural network using a virtual env
 
 To be able to read a real picture file we need to create one.
 
-A real RGB picture has 3 bytes per pixel (R, G, B an each with a value from 0 to 255).
+So what does the inside of a picture image contain? At least some pixels with a color.
+
+An RGB picture has 3 bytes per pixel (R, G, B an each with a value from 0 to 255).
 
 255 means maximum intensity for that color of the pixel and 0 means no intensity at all for that color.
 
 The values for white are 255, 255, 255 and for black 0, 0, 0
 
-For the next step you need the PIL module which you can install with 'my_venv/bin/pip install pillow'.
+For the next step you need the PIL (Python Image Library) module which you can install with 'my_venv/bin/pip install pillow'.
+
+Why install pillow while we need PIL? PIL support was stopped in 2011 and some developers forked PIL and named their fork pillow.
 
 Create a perfect picture with the next python script 'create_picture.py' :
 
 ```python
 from PIL import Image
 
-# create 4x4 RGB-picture, standard black
+# Create 4x4 RGB-picture, standard black
 img = Image.new('RGB', (4, 4), color='black')
 pixels = img.load()
 # pixels is a 4x4 matrix with values like (R,G,B)
 # The top left has x and y coordinates 0, 0
 # This is the way to change the center 2x2 pixels to white
-for y in range(1, 3):                   # rows 1 up to 3 ( excludes 3!)
-    for x in range(1, 3):               # and columns 1 up to 3
-        pixels[x, y] = (255, 255, 255)
+for y in range(1, 3):                   # rows 1 up to 3 (excludes 3!)
+    for x in range(1, 3):               # columns 1 up to 3 (excludes 3!)
+        pixels[x, y] = (255, 255, 255)  # change color to white
 
-# save as jpg
+# Save as jpg
 img.save('test.jpg', 'JPEG')
 ```
 
@@ -366,15 +376,16 @@ P = np.array(img) / 255.0     # Normalize to [0,1]
 # set up W with a structure to match P
 # to match it with the pixels this is a 4x4 matrix with values like (R,G,B)
 
-# In he explanation we ended up with weights of 1 and later 0.25 so we put 0.25 for every R G and B in the weights
+# Before we started with weights of 1 and later 0.25 so we put 0.25 for every R G and B in the weights
 
 W = np.array([[ [0,0,0], [0,0,0],          [0,0,0],          [0,0,0]],
               [ [0,0,0], [0.25,0.25,0.25], [0.25,0.25,0.25], [0,0,0]],
               [ [0,0,0], [0.25,0.25,0.25], [0.25,0.25,0.25], [0,0,0]],
               [ [0,0,0], [0,0,0],          [0,0,0],          [0,0,0]], ])
 
-# whoopsie, when we have white in the center the result
-# will not be 4 * 0.25 = 1 but 4 * 0.25 * 3 (3 because we have 3 times as many outputs due to R, R and B )
+# whoopsie, when we have white in the center 
+# the result will not be 4 * 0.25 = 1 
+#                    but 4 * 0.25 * 3 (times 3 due to R, R and B )
 # we correct this by dividing the weights by 3
 # (remember this as 'another part of the training process' which we do later)
 
@@ -393,25 +404,26 @@ Before you run the script read it to verify that it should output 'Percentage wh
 
 After that run the script with 'my_venv/bin/python3 test_picture.py' to see 'Percentage white: 98.92%'
 
-This error is caused by the fact that computers do not calculate with an infinite accuracy.
+This difference is caused by the fact that computers do not calculate with an infinite accuracy.
 
 A real neural network will output the 100% because it will adjust the weights during training to a slightly higher value.
 
 Cool right?
 
-<!--
-after the line :
+Pictures in the real world are not perfect black and white so after the line:
+
 P = np.array(img) / 255.0     # Normalize to [0,1]
 
-we could use the next to correct  colors to black and white
+we could use the next to correct almost black and almost white colors to perfect black and perfect white.
 
-# here we correct almost black to black
-P[P < 0.25] = 0               # Threshold at 25% of 255
+# here we correct almost black to perfect black
 
-# here we correct the white
-P[P >= 0.25] = 1
+P[P < 0.42] = 0 # Threshold at 42% of 255
 
--->
+# the other part we correct to perfect white
+
+P[P >= 0.42] = 1
+
 ---
 
 ## More complexity
@@ -420,15 +432,15 @@ We're not going to create a script with more complexity here, but let's think ab
 
 We'll start with a network that still has the 4x4 picture as input, but now has an output for each possible position of our 2x2 white dot matrix.
 
-We have 9 possible positions, so we want 9 outputs that tell us how white they are, just like the outputs we already have.
+We have 9 possible positions, so we want 9 outputs that tell us how white they are, just like the output we already have.
 
 The 9 neuron neural network looks like this:
 
 4 x 4 x 3 RGB inputs -- 48 connections --> to every one of the 9 outputs = 48 x 9 = 432 connections = 432 weights
 
-....and we need to input these weights correctly.
+....and we need to input these weights in our script. :cold_sweat:
 
-Now each output tells us how much of it is white and when you add the outputs together, the total comes to 1 (or should be 1 :smiley:).
+When we mange to do that each output tells us how much of it is white and when you add the outputs together, the total comes to 1 (or should be 1 :smiley:).
 
 That is possible, but the idea is that it becomes even more complicated when you want to analyze larger pictures.
 
@@ -481,7 +493,7 @@ The top part is very light like white or almost white. The bottom part is perfec
 
 One thing I want is the height of the bottom part, and the other thing I want is the color of that bottom part.
 
-When the valid colors are red, green, and blue, the network gets three outputs for that.
+When the valid colors are red, green, and blue, the network gets 3 outputs for that.
 
 One output for the probability that the color is red, one for the probability that it is green, and one for the probability that it is blue.
 
@@ -489,15 +501,17 @@ The valid values ​​for percentage are between 1% and 100%. I'm skipping 0% b
 
 This gives us another 100 results. One for each percentage. A total of 103 outputs.
 
-What about the number of inputs by the way ? 100 x 25 RGB cause 100 x 25 x 3 = 7500 values for the pixel input. And for that we need to create something to find the height of the column and the color of the column.
+What about the number of inputs by the way? 100 x 25 RGB cause 100 x 25 x 3 = 7500 
+
+The output is 103 values so we end up with 7500 x 103 = 772.500 weights...
 
 ### What do we need to do
 
-While numpy and pillow are already doing a great job, we need some extra help and that’s where Keras comes in.
+While numpy and pillow are already doing a great job, we need some extra help and that’s where the python module Keras flies in.
 
 With Keras, we can create a neural network model and train it to process our input and give us the answers we need.
 
-This Keras is complex to use and that’s where TensorFlow comes in.
+This Keras is complex to use and that’s where TensorFlow comes to the rescue.
 
 We use TensorFlow to create the Keras model.
 
@@ -511,7 +525,7 @@ To teach it to recognize the pictures we want, we need a lot of example pictures
 
 For each example picture we give, we also need to indicate to the training what the color is and what the percentage is.
 
-The training uses about 80% of the example pictures to generate the weights and put them into the model.
+we let the training use about 80% of the example pictures to generate the weights and put them into the model.
 
 The other 20% of the sample pictures is used to validate the training result.
 
@@ -519,7 +533,11 @@ The training consists of several steps, which are called epochs.
 
 Each epoch processes a part of the examples and does this in batches of a size defined by us.
 
-After training, we can use the network to analyze new pictures.
+After training, the definition of the model and the weights are saved in a file.
+
+We can use this model file in a test script to analyse pictures and report the results.
+
+Using the model is complicated so we call on TensorFlow for help again.
 
 ### Install some more python modules
 
@@ -532,15 +550,15 @@ The module tensorflow-cpu does the same as tensorflow but uses the microprocesso
 
 ### Generate training data
 
-The first step we take is to create training data. For this we use the script script_generate_pictures.py from the code directory.
+The first step we take is to create training data. For this we **use the script script_generate_pictures.py from the code directory**.
 
 This creates a large number of folders with names that contain the description of the content.
 
 Example: **red_53** is a folder with pictures that are **red** for the bottom **53%**.
 
-Each file in that folder has these properties and the file name can be whatever you want.
+Each file in that folder has these properties and the file name is just a random number.
 
-You may need to modify one line in the script to set the data_root directory to save the files to.
+You may want to modify one line in the script to set the data_root directory to save the files to.
 
 Then run the script with 'my_venv/bin/python3 script_generate_pictures.py'.
 
@@ -550,17 +568,19 @@ We use the script script_train_model.py  from the code directory to create and t
 
 You may need to modify one line in the script to set the data_root directory and maybe more when you made other changes in script_generate_pictures.py.
 
-In short it reads the data, prepares data for training, creates an empty model, trains the model and saves it.
+In short it reads the data, prepares data for training, creates an empty model, trains the model and saves 2 files.
 
-It also saves labels so we can translate the output values which are between 0 and 1 to text when we use the model.
+It saves the model but also saves labels so the test script we use later can translate the output values, which are between 0 and 1, to text.
 
 There is much additional explanation in the script which you may be interested in.
 
 You will find 2 active intermediate layers and a 3rd which you can activate by removing two # signs.
 
-NOTE: make sure to use a wide terminal window or you will see a lot of lines.....
+It also explains about the weights and more in the different layers so I dive into the code.
 
-I use the time command to get a time report at the end which looks like:
+I use the time command to run the script to get a time report at the end:
+
+(make sure to use a wide terminal window or you will see a lot of lines.....)
 
 ```
 
@@ -574,9 +594,7 @@ sys     0m15,023s
 
 ```
 
-After some 'sit back and relax' you have the model in file model.keras and the encoded labels in label_encoders.pkl.
-
-Remember that the model only outputs values between 0 and 1 and we prefer readable text. This is what label_encoders.pkl contains.
+After some 'sit back and relax' you have the trained model in the file model.keras and the encoded labels in label_encoders.pkl.
 
 ### Use the model
 
@@ -584,23 +602,27 @@ We use the script script_test_picture.py from the code directory to test with a 
 
 'my_venv/bin/python3 script_test_picture.py <data_root>/red_78/638081.png'
 
-Next create a 200 x 10 pixel jpg file with an drawing program and make the bottom part red, green or blue and test.
+Next create a 200 x 10 pixel white jpg file with an drawing program and make the bottom part red, green or blue and test.
 
 Note that the input size is wrong. You can also use other colors in your jpg even when they are not in the model.
 
 Test that and see that it will only report red, green or blue because it does not know the others.
 
+<!--
 This is the point where you may delete the complete dataset folder and put more colors in the script to generate pictures.
 
 Just uncomment 1 line in script_generate_pictures.py.
 
 Run the script to generate the pictures, run the script to create a new model and test your new colors.
+-->
 
 ### Increase performance
 
 The keras model model.keras can be converted to another model, which works 4 to 5 times faster.
 
 Use the script script_convert_model_to_lite.py from the code directory for this.
+
+"Be prepared" to see a lot of informational messages. "Don't panic".
 
 Run 'my_venv/bin/python3 script_convert_model_to_lite.py' and you have a model.tflite.
 
@@ -708,9 +730,13 @@ Now you should be able to browse to  ```http://ip_address_of_your_Raspberry_Pi/l
 Next could be:
 
  - create, train and enjoy your own neural networks
+ - maybe increase the number of colors in what you have now
  - look for answers to questions you have on the internet, in books, at friends
  - send me any comments you have on the above
- - and finally to find the the value of the answer to the well known question you can count its letters:
+ - relax and read a good guide 
+ - and to find the the value of the answer to the question, count the letters of the answer:
     - it's the answer to life, the universe and everything
+
+"So long, and thanks for all the fish."
 
 Jack

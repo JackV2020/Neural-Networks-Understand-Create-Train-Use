@@ -11,7 +11,16 @@ from keras.saving import save_model
 
 import pickle
 
-data_root = "/Data/Python/AI/level_detection/dataset"
+import platform
+
+os_name = platform.system()
+
+if os_name == "Linux":
+    data_root = "/Data/Python/AI/level_detection/dataset"
+elif os_name == "Windows":
+    # Windows needs the r before the string
+    data_root = r"D:\Data\Python\AI\level_detection\dataset"
+
 model_path = "model.keras"
 encoders_path = "label_encoders.pkl"
 image_height = 100

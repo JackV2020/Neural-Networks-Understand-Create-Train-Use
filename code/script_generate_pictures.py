@@ -3,8 +3,18 @@ import random
 from PIL import Image, ImageDraw, ImageFilter
 import numpy as np
 from tqdm import tqdm
+from pathlib import Path
 
-data_root = "/Data/Python/AI/level_detection/dataset"
+import platform
+
+os_name = platform.system()
+
+if os_name == "Linux":
+    data_root = "/Data/Python/AI/level_detection/dataset"
+elif os_name == "Windows":
+    # Windows needs the r before the string
+    data_root = r"D:\Data\Python\AI\level_detection\dataset"
+
 images_per_perc = 10
 image_height = 100
 image_width = 25
@@ -16,7 +26,7 @@ colors = ['red', 'green', 'blue']
 #
 # DO NOT DO THIS UNTIL YOU FINISHED THE FIRST TESTS AFTER TRAINING
 #
-colors = ['red', 'green', 'blue', 'yellow', 'cyan', 'magenta']
+#colors = ['red', 'green', 'blue', 'yellow', 'cyan', 'magenta']
 #
 
 color_map = {
@@ -27,7 +37,6 @@ color_map = {
     'cyan': (0, 255, 255),
     'magenta': (255, 0, 255)
 }
-
 
 os.makedirs(data_root, exist_ok=True)
 
@@ -47,27 +56,29 @@ def random_background():
     return (base - random.randint(0, 20),
             base - random.randint(0, 20),
             base - random.randint(0, 20))
-            
+skipped = 0
 for a in range(images_per_perc):
     for c in range(len(colors)):
         color = colors[c]
-        for i in range(101):
-            perc = i
-            label = f"{color}_{perc}"
-            if perc == 0: # I put this in because I might want something with it anyway.
-                path = f"{data_root}/blanco"
-            else:
-                path = f"{data_root}/{label}"
-            os.makedirs(path, exist_ok=True)
-            
+        for perc in range(1,101):
+            # Create a full size image with 1 color
             bg_color = random_background()
             img = Image.new("RGB", (image_width, image_height), bg_color)
             draw = ImageDraw.Draw(img)
-            
-            # Draw the lower rectangle=
+            # Draw the lower rectangle with the color
             draw.rectangle([0 , 100 - perc, image_width, image_height], fill=color)
-            
-            if a > 1 : # add some random noise to the picture but skip first 2 pictures so we also have solids
+            # Add some noise in the picture but skip first 2 so we also have solids
+            if a > 1 :
                 img = add_noise(img, amount=0.03)
-            filename = f"{path}/{random.randint(100000,999999)}.png"
-            img.save(filename)
+            # Save the file
+            filename = Path(os.path.join(data_root, color+"_"+ str(perc), str(random.randint(100000,999999)) + ".png"))
+            filename.parent.mkdir(parents=True, exist_ok=True)
+            try:
+                print(f"Saving {filename}")
+                img.save(filename)
+            except:
+                print("Almost impossible but we hit a random filename twice!")
+                skipped += 1
+
+print(f"Skipped {skipped} files")
+
