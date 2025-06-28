@@ -572,21 +572,45 @@ In short it reads the data, prepares data for training, creates an empty model, 
 
 It saves the model but also saves labels so the test script we use later can translate the output values, which are between 0 and 1, to text.
 
-There is much additional explanation in the script which you may be interested in.
+Before you dive into the code, which I am sure of you did not do yet...
 
-You will find 2 active intermediate layers and a 3rd which you can activate by removing two # signs.
+```
+You will find comments explaining a bit about the statements and more.
 
-It also explains about the weights and more in the different layers so I dive into the code.
+Like 2 active intermediate layers and a 3rd which you can activate by removing two # signs.
+
+And also something that I have not been completely honest about....yet
+
+Computers do not calculate with infinite accuracy. That I have been honest about already.
+
+Remember math class at school where we say "y = ax + b is the equation of a straight line."
+where "b" moves the line a little bit up or down?
+Due to the not so infinite accuracy each neuron also uses a "b" to get better output results.
+For the end result of every neuron there is a "b" which is the bias.
+
+This makes the calculation for a neuron :
+ - for each input : input result = input x weight
+ - and end result : total result = sum of all input results + one neuron bias
+
+In a matrix calculation this is:
+ - a multiplication of the inputs and weights matrices + bias matrix
+ - the result of multiplication of the inputs and weights matrices is a 1 x 1 matrix
+ - which is a single number and just like that is the bias matrix just 1 single number
+ - in our python scripts this could be : R = np.add(np.dot(P, W), B)
+ - in the ideal world B would be [ 0 ]
+```
+
+Now you can I dive into the script or leave it for what it is and run it.
 
 I use the time command to run the script to get a time report at the end:
 
-(make sure to use a wide terminal window or you will see a lot of lines.....)
+(make sure to use a wide terminal window or resize it while the script runs to avoid a lot of lines)
 
 ```
 
 time my_venv/bin/python3 script_train_model.py
 :
-a lot of output
+a lot of output with long lines
 :
 real    1m52,437s
 user    11m51,018s

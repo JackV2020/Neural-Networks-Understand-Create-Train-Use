@@ -74,19 +74,21 @@ print("[INFO] Building model...")
 
 # In the comments we calculate the total number of trainable parameters
 # which are weights and biases ( biases are extra offsets in the model)
-# I put this in because it may gives me better insight
+# I put all these comments in because it gives me better insight
 
-# model.summary() at the end of this script reports these same numbers and more
+# model.summary() at the end of this script reports these same numbers for the parameters and more
 
 # At the end of the summary is a list like :
 #
 # Total params: 3,145,322 (12.00 MB)
-# Trainable params: 1,048,440 (4.00 MB)
+# Trainable params: 1,048,440 (4.00 MB) <- these are the weights and the biasses
 # Non-trainable params: 0 (0.00 B)
-# Optimizer params: 2,096,882 (8.00 MB)
+# Optimizer params: 2,096,882 (8.00 MB) <- these are used during training
 #
 # Only the trainable parameters are saved in the model which influences the file size of the model.
-# The more parameters to save the bigger file
+# The more trainable parameters to save the bigger file
+
+# Let's go.
 
 # ----------------------------------------------------------------------
 
@@ -96,11 +98,12 @@ inputs = layers.Input(shape=(image_height, image_width, 3))
 
 # ----------------------------------------------------------------------
 
-# Convolutional layer with 32 filters, each of kernel size (3 x 3 pixels) and depth 3 (RGB) , followed by ReLU activation function
+# First Convolutional layer with 32 filters, each of kernel size (3 x 3 pixels) and depth 3 (RGB) , followed by ReLU activation function
+# activation='relu' is like a straight line "y = a * x + b" which is needed for the matrix calculation
+# padding='same' keeps resizing in control
 x = layers.Conv2D(32, (3,3), activation='relu', padding='same')(inputs)
-# This helps extract features like edges or textures from the image
-# This gives → 32 × ( 3 depth × ( 3 × 3 weights for pixels ) + 1 bias ) = 896 parameters
-# (padding='same' keeps resizing in control)
+# This helps extract features like little lines or textures from the image
+# This gives → 32 × ( ( 3 × 3 for pixels ) x 3 for RGB depth weights + 1 bias per filter ) = 896 parameters
 
 # MaxPooling layer with pool size (2x2), downsampling the image and reducing its spatial dimensions
 
@@ -113,11 +116,11 @@ x = layers.MaxPooling2D((2,2))(x)
 
 # ----------------------------------------------------------------------
 
-# Second Convolutional layer with 64 filters and (3x3) kernel size and depth 32 (feature maps previous layer) , followed by ReLU activation
+# Second Convolutional layer with 64 filters and (3x3) kernel size and depth 32 (channels or feature maps previous layer) , followed by ReLU activation
 
 x = layers.Conv2D(64, (3,3), activation='relu', padding='same')(x)
 # This layer will extract more complex features (higher-level patterns)
-# This gives → 64 × ( 32 dept × 3 × 3 weights + 1 bias ) = 18496 parameters
+# This gives → 64 × ( ( 3 × 3 for 'pixels' ) x 32 depth weights + 1 bias per filter ) = 18496 parameters
 
 # MaxPooling layer again to downsample the feature maps after the second convolution
 
@@ -133,7 +136,7 @@ x = layers.MaxPooling2D((2,2))(x)
 
 #x = layers.Conv2D(128, (3,3), activation='relu', padding='same')(x)
 # This layer will extract more complex features (higher-level patterns)
-# This gives → 128 × ( 64 dept × 3 × 3 weights + 1 bias ) = 73856 parameters
+# This gives → 128 × ( ( 3 × 3 for 'pixels' ) x 64 depth weights + 1 bias per filter ) = 73856 parameters
 
 # MaxPooling layer again to downsample the feature maps after the third convolution
 
