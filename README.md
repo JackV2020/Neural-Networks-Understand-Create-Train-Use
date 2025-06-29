@@ -531,7 +531,11 @@ The other 20% of the sample pictures is used to validate the training result.
 
 The training consists of several steps, which are called epochs.
 
-Each epoch processes a part of the examples and does this in batches of a size defined by us.
+Each epoch processes all of the examples and does this in batches of a size defined by us.
+
+After each training batch a validation batch with seperarate examples is used to test the model.
+
+Validation is just monitoring the progress and is not used to influence the training process.
 
 After training, the definition of the model and the weights are saved in a file.
 
