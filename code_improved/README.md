@@ -6,6 +6,7 @@ After finishing the story on neural networks I decided to improve the training a
 
 The reason why I did not include all these improvements in the first place is that I wanted to keep the script as simple as possible and explain what it is doing in detail without to much ovehead.
 
+
 So what is changed here?
 
 The script script_generate_pictures_improved.py creates 3 seperate folders with pictures:
