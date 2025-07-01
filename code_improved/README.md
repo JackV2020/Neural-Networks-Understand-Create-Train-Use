@@ -10,9 +10,9 @@ So what is changed here?
 
 The script script_generate_pictures_improved.py creates 3 seperate folders with pictures.
 
- - training: contains the data used during the training sessions
- - validation: contains the data used during validation
- - test: contains data which you can use to test and is very much like the data in training and validation 
+ - training contains the data used during the training sessions
+ - validation contains the data used during validation
+ - test contains data which you can use to test and is very much like the data in training and validation 
     (these should all report (close to) 100% certainty)
 
 Not a big deal, just did it because I liked to split it up.
@@ -31,7 +31,7 @@ The script script_train_model_improved.py has extra functionality.
     - it blurs 20% of the samples 
  - the training script produces a keras model and a tflite model
  - the validation shows a progress bar just like the training
- - AND BEST : load data per batch
+ - AND BEST load data per batch
     - this allows you to train very big datasets as long as training + validation batches fit in memory
     
 Comments from the script_train_model.py were replaced by new comments to explain the new functionality 
@@ -44,11 +44,11 @@ You can use the test scripts from the code folder to test the models created by 
 
 During training you see long lines containing training results
 
- - color_accuracy: 0.9586   : 95.86% predections were oke   
- - color_loss: 0.1072       : 'how wrong were the errors'
- - loss: 3.0656             : = color_loss + perc_loss
- - perc_accuracy: 0.2832    : 28.32% predections were oke   
- - perc_loss: 2.9584        : 'how wrong were the errors'
+ - color_accuracy  0.9586     95.86% predections were oke   
+ - color_loss  0.1072         'how wrong were the errors'
+ - loss  3.0656               = color_loss + perc_loss
+ - perc_accuracy  0.2832      28.32% predections were oke   
+ - perc_loss  2.9584          'how wrong were the errors'
 
 Each training batch aims to minimize the loss, which indirectly improves accuracy.
 
@@ -58,11 +58,11 @@ Smaller batches lead to more updates per epoch, potentially improving generaliza
 
 And after validation completes you see extra results
 
- - val_color_accuracy: 1.0000   : 100% predections were oke    
- - val_color_loss: 0.0033       : 'how wrong are the errors' 
- - val_loss: 0.0448             : = val_color_loss + val_perc_loss
- - val_perc_accuracy: 0.9983    : 99.83% predections were oke    
- - val_perc_loss: 0.0415        : 'how wrong were the errors'
+ - val_color_accuracy  1.0000     100% predections were oke    
+ - val_color_loss  0.0033         'how wrong are the errors' 
+ - val_loss  0.0448               = val_color_loss + val_perc_loss
+ - val_perc_accuracy  0.9983      99.83% predections were oke    
+ - val_perc_loss  0.0415          'how wrong were the errors'
  
 These validation results are just info and not used for the training.
 
