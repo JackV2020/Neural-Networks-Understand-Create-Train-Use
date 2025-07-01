@@ -1,0 +1,27 @@
+
+print("\033[0;30m ███ Black")
+print("\033[0;31m ███ Red")
+print("\033[0;32m ███ Green")
+print("\033[0;33m ███ Yellow")
+print("\033[0;34m ███ Blue")
+print("\033[0;35m ███ Purple")
+print("\033[0;36m ███ Cyan")
+print("\033[0;37m ███ White")
+
+print("\033[1;30m ███ bold Black")  # the 1 makes it bold
+print("\033[1;31m ███ bold Red")
+print("\033[1;32m ███ bold Green")
+print("\033[1;33m ███ bold Yellow")
+print("\033[1;34m ███ bold Blue")
+print("\033[1;35m ███ bold Purple")
+print("\033[1;36m ███ bold Cyan")
+print("\033[1;37m ███ bold White")
+
+print("\033[0;90m ███ high intensity Black")
+print("\033[0;91m ███ high intensity Red")
+print("\033[0;92m ███ high intensity Green")
+print("\033[0;93m ███ high intensity Yellow")
+print("\033[0;94m ███ high intensity Blue")
+print("\033[0;95m ███ high intensity Purple")
+print("\033[0;96m ███ high intensity Cyan")
+print("\033[0;97m ███ high intensity White")

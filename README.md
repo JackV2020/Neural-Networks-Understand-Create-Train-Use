@@ -287,6 +287,8 @@ The advise is to use a virtual python environment.
 That is an impressive name for a dedicated directory in which you put all modules for your scripts.
 (You get a little bit more but that is the idea)
 
+When you want to clean up later you simply delete the directory and all installed modules are gone and you have your python just like before you created the virtual environment.
+
 So do the next:
 
 ```
