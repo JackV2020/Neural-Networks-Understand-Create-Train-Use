@@ -15,7 +15,11 @@ I wrote this story to explain neural networks as I understand them in an easy un
 The command line tool analyzes simple pictures. The web application allows you to upload pictures and shows the analysis results on the web page.
 When you run the web application on a mobile it allows you to take a picture and upload that for analysis.
 
-Everything you need to create and train the neural network and run both applications is in the **code directory** so you do not need to create these yourself. I did my utmost to write operating system independent code so I trust everything runs on Windows too.
+Everything you need to create and train the neural network and run both applications is in the **code directory** so you do not need to create these yourself. 
+
+<i>Ignore the **code_improved directory** until you survived the **code directory**</i>
+
+I did my utmost to write operating system independent code so I trust everything runs on Windows too.
 
 Today is a hot sunny day in June 2025, and I have a bright and shiny state‑of‑the‑art laptop from 2005 (only 20 years young!) with an i7 processor and 8 GB of RAM, running Lubuntu on a modest 255 GB SSD, yes the disk was replaced once it was affordable.
 
