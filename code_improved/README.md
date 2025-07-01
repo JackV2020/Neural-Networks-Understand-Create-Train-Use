@@ -19,7 +19,7 @@ Not a big deal, just did it because I liked to split it up.
 
 This is what it is about.
 
-The script script_train_model_improved.py has extra functionality:
+The script script_train_model_improved.py has extra functionality.
 
  - training will stop early to use less time and avoid overfitting when 
     - validation loss gets worse 5 times in a row (the best result is saved)
@@ -40,9 +40,9 @@ You can use the test scripts from the code folder to test the models created by 
 
 ---
 
-## Notes on training and validation results:
+## Notes on training and validation results
 
-During training you see long lines containing training results:
+During training you see long lines containing training results
 
  - color_accuracy: 0.9586   : 95.86% predections were oke   
  - color_loss: 0.1072       : 'how wrong were the errors'
@@ -56,7 +56,7 @@ Both accuracy and loss are outcomes of the predictions, but only the loss is use
 
 Smaller batches lead to more updates per epoch, potentially improving generalization, but may also introduce more noise.
 
-And after validation completes you see extra results:
+And after validation completes you see extra results
 
  - val_color_accuracy: 1.0000   : 100% predections were oke    
  - val_color_loss: 0.0033       : 'how wrong are the errors' 
@@ -72,7 +72,7 @@ Training accuracy that increases more slowly than validation accuracy with augme
 
 ## So what's next
 
-Next could be:
+Next could be
 
  - use more or less training and validation data
  - now we have batch loading of the images use bigger pictures
