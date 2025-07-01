@@ -8,8 +8,7 @@ The reason why I did not include all these improvements in the first place is th
 
 So what is changed here?
 
-The script script_generate_pictures_improved.py creates 3 seperate folders with pictures:
-
+The script script_generate_pictures_improved.py creates 3 seperate folders with pictures.
 
  - training: contains the data used during the training sessions
  - validation: contains the data used during validation
