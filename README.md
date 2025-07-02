@@ -17,7 +17,7 @@ When you run the web application on a mobile it allows you to take a picture and
 
 Everything you need to create and train the neural network and run both applications is in the **code directory** so you do not need to create these yourself. 
 
-<i>Ignore the **code_improved directory** until you survived the **code directory**</i>
+<i>Ignore the **code_improved directory** until you survived the **code directory**.</i>
 
 I did my utmost to write operating system independent code so I trust everything runs on Windows too.
 
@@ -421,7 +421,7 @@ Pictures in the real world are not perfect black and white so after the line:
 P = np.array(img) / 255.0     # Normalize to [0,1]
 
 we could use the next to correct almost black and almost white colors to perfect black and perfect white.
-
+```
 # here we correct almost black to perfect black
 
 P[P < 0.42] = 0 # Threshold at 42% of 255
@@ -429,7 +429,7 @@ P[P < 0.42] = 0 # Threshold at 42% of 255
 # the other part we correct to perfect white
 
 P[P >= 0.42] = 1
-
+```
 ---
 
 ## More complexity
