@@ -61,7 +61,7 @@ To keep it easy, we sell fixed amounts and use prices chosen for easy calculatio
 - Pears: € 2 for 1 kg
 - Potatoes: € 3 for 5 kg
 
-We can put this in a structured table which we call a 3 x 2 matrix:
+We can put this in a structured table that we call a 3 x 2 matrix:
 
 (3 x 2 matrix because we have 3 rows and 2 columns)
 
@@ -164,13 +164,13 @@ You can check that with the calculation we made in our grocery above.
 In general When you multiply two matrices :  P x W = R 
 for                  matrix P       x         matrix W
 you calculate (columns P x rows P ) x ( columns W x rows W)
-which results in size    (columns P x rows W)
+this results in size     (columns P x rows W)
 result                   (columns R x rows R)
 result                          matrix R
 
 So for a multiplication of a 1 x 3 with a 3 x 1 matrix like before we end up with a 1 x 1 matrix.
 
-And for a 4 x 1 and 1 x 4 you also get a 1 x 1 matrix which is the answer to our question:
+And for a 4 x 1 and 1 x 4 you also get a 1 x 1 matrix, which is the answer to our question:
 
 [2, 7, 3, 2] x [5, 2, 4, 3] = 10 + 14 + 12 + 6 = 42
 ```
@@ -183,7 +183,7 @@ Imagine a 'high‑definition' :smiley: camera that captures a 4×4 = 16 pixel 
 
 We want to detect how many of the 4 central pixels are white (e.g. indicating something is in the center).
 
-Label pixels `p0` to `p15`, and convert black to 0, white to 1.
+Label pixels `p0` to `p15`.
 
 Arrange them:
 
@@ -194,7 +194,9 @@ p8  p9  p10 p11
 p12 p13 p14 p15
 ```
 
-Our input picture with a center white is the base for `w0` to `w15`:
+The matrix for this is all pixels in a row [p0, p1, .. p15]
+
+Use a 0 for black and a 1 for white to represent a picture with a white center in `p0` to `p15`:
 
 ```
 0 0 0 0
@@ -203,7 +205,10 @@ Our input picture with a center white is the base for `w0` to `w15`:
 0 0 0 0
 ```
 
-The neural network we build looks like the schema below.
+In the neural network we have weight factors  `w0` to `w15` these are in a matrix with 1 row [w0, w1, .. w15]
+
+
+The neural network we build looks like the schema below. The weights happen to have the values of the pixel matrix we just made.
 
 ```
 p0  ----->   i0----[w0  = 0]-------------------+
@@ -233,7 +238,7 @@ This means: result = p0 x w0 + ... + p15 x w15
 
 The part in the center is a basic neuron with 16 inputs and 1 single output
 
-Here, the result is 4 when the central 4 pixels are white,  2 if shifted up and 1 when in a corner.
+Here, the result is 4 when the central 4 pixels are white,  2 if shifted up and 2 get black and 1 when in a corner and 3 get black.
 
 This is our 'single-neuron network'.
 
@@ -245,29 +250,31 @@ Neural networks often scale outputs between 0 and 1.
 
 We achieve this by reducing the weights: each of the 1’s becomes `0.25`, zeros stay zero.
 
+The weights matrix is [0,0,0,0, 0,0.25,0.25,0, 0,0.25,0.25,0, 0,0,0,0]
+
 Now:
 
 - When all 4 center pixels are white: result = 1
-- When 2 are white: result = 0.5
-- In a corner: 0.25
+- When 2 are white and 2 are black: result = 0.5
+- When 1 is white and 3 are black: 0.25
 
-Remember this 'tuning the weights to get what we want' as training the neural network which we will do later.
+Remember this 'tuning the weights to get what we want' as training the neural network, which we will do later.
 
 ---
 
-## Python code for single neuron neural network
+## Python code to create a single neuron neural network
 
 I needed a long title for this section since the code is only 5 lines and 3 lines do the work.
 
 We are about to create a python script with numpy to do the matrix multiplication.
 
-numpy is short for Numerical Python which supports matrix calculations.
+numpy is short for Numerical Python, which supports matrix calculations.
 
-In the beginning I mentioned that it is a script of 5 lines.
+I just mentioned that it is a script of 5 lines.
 
-We can discuss this length for a "long time" because there are some empty lines, the first line is borrowing something, then 2 lines we need to have something to do and at last a line which only shows off what we achieved.
+We can discuss this length for a "long time" because there are some empty lines, the first line is borrowing something, which is some help we get from the python universe, then 2 lines we need to have something to do and at last a line which only shows off what we achieved.
 
-Anuway, create a script with the next in it and save it with the name matrix.py:
+Anyway, create a script with the next in it and save it with the name matrix.py:
 
 ```python
 import numpy as np
@@ -282,16 +289,16 @@ print(f"Percentage white: {round(R * 100)}%")
 
 Run the script with 'python3 matrix.py'
 
-This could print 'Percentage white: 25%' or report an error because there is "something missing" like the numpy module.
+This could print 'Percentage white: 25%' or report an error because there is "some help missing" like the numpy module.
 
-Do not 'pip install numpy' to install numpy because...
+You could use 'pip install numpy' to install numpy however...
 
-The advise is to use a virtual python environment.
+The advise is to use a 'virtual python environment'.
 
 That is an impressive name for a dedicated directory in which you put all modules for your scripts.
 (You get a little bit more but that is the idea)
 
-When you want to clean up later you simply delete the directory and all installed modules are gone and you have your python just like before you created the virtual environment.
+When you want to clean up later you simply delete the directory and all extra installed modules are gone and you have your python just like before you created the virtual environment.
 
 So do the next:
 
@@ -301,7 +308,7 @@ So do the next:
 
     after this you run pip from your virtual environment :
 
-        source path-to-venv
+        source my_venv ( or source 'path-to-venv' when my_venv is not in your current directory ) 
         pip install numpy
         deactivate
 
@@ -309,28 +316,27 @@ So do the next:
 
         on Linux   : my_venv/bin/pip install numpy
         on Windows : my_venv\Scripts\pip.exe install numpy
+        (also here you can replace my_venv by 'path-to-venv')
 
     you can run the script the same way:
 
         on Linux   : my_venv/bin/python3 matrix.py
         on Windows : my_venv\Scripts\python.exe matrix.py
-        
-Note the difference between Linux and Windows.
 
 In the future I will only use the 'one-liner form for Linux syntax' but remember to use the Windows syntax on Windows.
 
-I can not believe that I wrote the previous sentence but once said, you can not unsay things can you?
+I can not believe that I said the previous sentence but once said, you can not unsay things can you?
 ```
 
-By now you can tell everybody in the universe that you created a neural network using a virtual environment. :smiley:
+By now you can tell everybody in the universe that you created a neural network using a virtual python environment. :smiley:
 
 ---
 
 ### Reading from a real picture
 
-To be able to read a real picture file we need to create one.
+To be able to read a real picture file we are going to create one.
 
-So what does the inside of a picture image contain? At least some pixels with a color.
+So what does the inside of a real picture image contain? At least some pixels with a color.
 
 An RGB picture has 3 bytes per pixel (R, G, B an each with a value from 0 to 255).
 
@@ -338,11 +344,13 @@ An RGB picture has 3 bytes per pixel (R, G, B an each with a value from 0 to 255
 
 The values for white are 255, 255, 255 and for black 0, 0, 0
 
-For the next step you need the PIL (Python Image Library) module which you can install with 'my_venv/bin/pip install pillow'.
+For the next step you need the PIL (Python Image Library) module that you can install with 'my_venv/bin/pip install pillow'.
 
 Why install pillow while we need PIL? PIL support was stopped in 2011 and some developers forked PIL and named their fork pillow.
 
-Create a perfect picture with the next python script 'create_picture.py' :
+After installing PIL create a perfect picture with the next python script 'create_picture.py' :
+
+(everything after a `#` is ignored by python and is comments to explain things)
 
 ```python
 from PIL import Image
@@ -350,7 +358,7 @@ from PIL import Image
 # Create 4x4 RGB-picture, standard black
 img = Image.new('RGB', (4, 4), color='black')
 pixels = img.load()
-# pixels is a 4x4 matrix with values like (R,G,B)
+# pixels is a 4x4 matrix with 16 RGB values (0,0,0)
 # The top left has x and y coordinates 0, 0
 # This is the way to change the center 2x2 pixels to white
 for y in range(1, 3):                   # rows 1 up to 3 (excludes 3!)
@@ -374,8 +382,8 @@ from PIL import Image
 # img has values between 0 and 255
 img = Image.open('test.jpg')  # our RGB test picture, 4×4 picture assumed
 
-# the inputs accept values between 0 and 1 so we divide by 255
-P = np.array(img) / 255.0     # Normalize to [0,1]
+# the inputs of the neuron accept values between 0 and 1 so we divide by 255
+P = np.array(img) / 255.0     # every single element is divided by 255.0
 
 # ----- Create the neuron and let it work
 
@@ -383,19 +391,20 @@ P = np.array(img) / 255.0     # Normalize to [0,1]
 # to match it with the pixels this is a 4x4 matrix with values like (R,G,B)
 
 # Before we started with weights of 1 and later 0.25 so we put 0.25 for every R G and B in the weights
+# Follow the square brackets to find 4 row elements with 4 RGB elements each
 
 W = np.array([[ [0,0,0], [0,0,0],          [0,0,0],          [0,0,0]],
               [ [0,0,0], [0.25,0.25,0.25], [0.25,0.25,0.25], [0,0,0]],
               [ [0,0,0], [0.25,0.25,0.25], [0.25,0.25,0.25], [0,0,0]],
               [ [0,0,0], [0,0,0],          [0,0,0],          [0,0,0]], ])
 
-# whoopsie, when we have white in the center 
+# whoopsie, we see three times 0.25 for each pixel when we have white in the center 
 # the result will not be 4 * 0.25 = 1 
 #                    but 4 * 0.25 * 3 (times 3 due to R, R and B )
 # we correct this by dividing the weights by 3
-# (remember this as 'another part of the training process' which we do later)
+# (remember this as 'another part of the training process', which we do later)
 
-W = W / 3
+W = W / 3.0
 
 # and the way to calculate the result with numpy is
 
@@ -415,10 +424,10 @@ This difference is caused by the fact that computers do not calculate with an in
 A real neural network will output the 100% because it will adjust the weights during training to a slightly higher value.
 
 Cool right?
-
+<!--
 Pictures in the real world are not perfect black and white so after the line:
 
-P = np.array(img) / 255.0     # Normalize to [0,1]
+P = np.array(img) / 255.0
 
 we could use the next to correct almost black and almost white colors to perfect black and perfect white.
 ```
@@ -430,6 +439,7 @@ P[P < 0.42] = 0 # Threshold at 42% of 255
 
 P[P >= 0.42] = 1
 ```
+-->
 ---
 
 ## More complexity
@@ -446,11 +456,11 @@ The 9 neuron neural network looks like this:
 
 ....and we need to input these weights in our script. :cold_sweat:
 
-When we mange to do that each output tells us how much of it is white and when you add the outputs together, the total comes to 1 (or should be 1 :smiley:).
+When we mange to do that each output tells us how much of it is white and when you add the outputs together, the total comes to 1 (or should come to 1 :smiley:).
 
 That is possible, but the idea is that it becomes even more complicated when you want to analyze larger pictures.
 
-Thhink of a real 16 megapixel picture.
+Think of a real 16 megapixel picture.
 
 Input = 16.777.216 pixels x 3 for RGB values = 50.331.648 values
 
@@ -464,7 +474,7 @@ The layer 1 can 'scan' the picture with small 3x3 windows to look for small deta
 It can create a new 'picture matrix' with lower dimensions than the original one and put its results in the new picture matrix.
 These results have a meaning of little lines in certain directions or the major colors detected.
 
-The layer 2 can 'scan' the 'new picture' with small 3x3 to look for small details like little figures or colors and produce values indicating what it found in the windows. ( note that this 3x3 window kind a checks a 9x9 window from the original input )
+The layer 2 can 'scan' the 'new picture' with small 3x3 windows to look for small details like little figures or colors and produce values indicating what it found in the windows. ( note that this 3x3 window kind a checks a 9x9 window from the original input )
 
 It can create a new 'picture matrix' with lower dimensions than its input and put its results in the new picture matrix.
 These results have a meaning of little figures or the major colors detected.
@@ -487,9 +497,9 @@ Before we put together a real network we need to know what we want with it and h
 
 We can program this example without a neural network, but we need something simple to get things explained.
 
-Imagine a liquid level with values ​​between 0 and 100%, which we monitor with a camera that takes a picture every now and then.
+Imagine a liquid level with values ​​between 0 and 100%  that we monitor with a camera, which takes a picture every now and then.
 
-I want to know two things about these pictures: the height of the level and the color of the liquid.
+We want to know two things about these pictures: the height of the level and the color of the liquid.
 
 The neural network accepts pictures that are 100 pixels high and 25 pixels wide. (Pictures have different sizes, so we need to adjust the inputs.)
 
@@ -497,15 +507,13 @@ A picture looks like two rectangles of different colors on top of each other.
 
 The top part is very light like white or almost white. The bottom part is perfect red, green or blue.
 
-One thing I want is the height of the bottom part, and the other thing I want is the color of that bottom part.
-
 When the valid colors are red, green, and blue, the network gets 3 outputs for that.
 
 One output for the probability that the color is red, one for the probability that it is green, and one for the probability that it is blue.
 
 The valid values ​​for percentage are between 1% and 100%. I'm skipping 0% because then we have no color, right?
 
-This gives us another 100 results. One for each percentage. A total of 103 outputs.
+This gives us another 100 outputs. One for each percentage. A total of 103 outputs with a value from 0 to 1.
 
 What about the number of inputs by the way? 100 x 25 RGB cause 100 x 25 x 3 = 7500 
 
@@ -521,17 +529,15 @@ This Keras is complex to use and that’s where TensorFlow comes to the rescue.
 
 We use TensorFlow to create the Keras model.
 
-This model doesn’t have weights in its neurons, so we need to get them in somehow.
+This model doesn’t have the right weights in its neurons from the start, so we need to get them in somehow.
 
 That process is called training the model and for that we need a lot of different examples that we will create.
 
 The training is also done by TensorFlow.
 
-To teach it to recognize the pictures we want, we need a lot of example pictures.
-
 For each example picture we give, we also need to indicate to the training what the color is and what the percentage is.
 
-we let the training use about 80% of the example pictures to generate the weights and put them into the model.
+We let the training use about 80% of the example pictures to generate the weights and put them into the model.
 
 The other 20% of the sample pictures is used to validate the training result.
 
@@ -543,11 +549,15 @@ After each training batch a validation batch with seperarate examples is used to
 
 Validation is just monitoring the progress and is not used to influence the training process.
 
+What is more important is that the training mechanism makes a prediction before triaining and compares this with the result after training.
+
+The difference, which is called the loss, is used in the next training batch to correct the weights a bit.
+
 After training, the definition of the model and the weights are saved in a file.
 
-We can use this model file in a test script to analyse pictures and report the results.
+We can use this trained model file in a test script to analyse pictures and report the results.
 
-Using the model is complicated so we call on TensorFlow for help again.
+Using the trained model is complicated so we call on TensorFlow for help again to create a functioning neural network.
 
 ### Install some more python modules
 
@@ -557,6 +567,8 @@ I install tensorflow-cpu because I do not have a GPU. :cry: When you have a GPU 
 The module tensorflow-cpu does the same as tensorflow but uses the microprocessor of your computer and not a GPU.
 
 'my_venv/bin/pip install tqdm tensorflow-cpu scikit-learn ai_edge_litert'
+
+Or for the lucky ones: 'my_venv/bin/pip install tqdm tensorflow scikit-learn ai_edge_litert'
 
 ### Generate training data
 
@@ -572,31 +584,37 @@ You may want to modify one line in the script to set the data_root directory to 
 
 Then run the script with 'my_venv/bin/python3 script_generate_pictures.py'.
 
+Using directory names that describe the contents is handy because during the training and validation we need to tell what each file contains.
+
+We could also create 1 single directory named images and keep a record of all filenames and what they contain in a seperate file and use that for our training.
+
+I like to recognize things when I look in a directory so I prefer to use the method with speaking names for the directories.
+
 ### Create and train the model
 
-We use the script script_train_model.py  from the code directory to create and train the model.
+We use the script script_train_model.py from the code directory to create and train the model.
 
 You may need to modify one line in the script to set the data_root directory and maybe more when you made other changes in script_generate_pictures.py.
 
 In short it reads the data, prepares data for training, creates an empty model, trains the model and saves 2 files.
 
-It saves the model but also saves labels so the test script we use later can translate the output values, which are between 0 and 1, to text.
+It saves the model but also saves labels so the test script we use later can translate the output values, which are between 0 and 1, to text that we understand.
 
 Before you dive into the code, which I am sure of you did not do yet...
 
 ```
 You will find comments explaining a bit about the statements and more.
 
-Like 2 active intermediate layers and a 3rd which you can activate by removing two # signs.
+Like 2 active intermediate layers and a 3rd, which you can activate by removing two # signs.
 
 And also something that I have not been completely honest about....yet
 
-Computers do not calculate with infinite accuracy. That I have been honest about already.
+Computers do not calculate with infinite accuracy. (At least that I have been honest about already.)
 
 Remember math class at school where we say "y = ax + b is the equation of a straight line."
 where "b" moves the line a little bit up or down?
 Due to the not so infinite accuracy each neuron also uses a "b" to get better output results.
-For the end result of every neuron there is a "b" which is the bias.
+This "b" is the bias of the neuron.
 
 This makes the calculation for a neuron :
  - for each input : input result = input x weight
@@ -605,7 +623,7 @@ This makes the calculation for a neuron :
 In a matrix calculation this is:
  - a multiplication of the inputs and weights matrices + bias matrix
  - the result of multiplication of the inputs and weights matrices is a 1 x 1 matrix
- - which is a single number and just like that is the bias matrix just 1 single number
+ - this is a single number and just like that is the bias matrix just 1 single number
  - in our python scripts this could be : R = np.add(np.dot(P, W), B)
  - in the ideal world B would be [ 0 ]
 ```
@@ -630,7 +648,7 @@ sys     0m15,023s
 
 After some 'sit back and relax' you have the trained model in the file model.keras and the encoded labels in label_encoders.pkl.
 
-### Use the model
+### Use the trained model
 
 We use the script script_test_picture.py from the code directory to test with a picture we created before like:
 
@@ -652,7 +670,7 @@ Run the script to generate the pictures, run the script to create a new model an
 
 ### Increase performance
 
-The keras model model.keras can be converted to another model, which works 4 to 5 times faster.
+The keras model model.keras can be converted to another model, which works 4 to 5 times faster in my case.
 
 Use the script script_convert_model_to_lite.py from the code directory for this.
 
@@ -674,7 +692,7 @@ When that runs compare the time it takes :
 
 ---
 
-## Web application
+## Web application (cool but optional of course)
 
 You can use a web application to upload a picture and get the model outputs on the web page.
 
@@ -688,7 +706,7 @@ The processing is slooooow but it works :smiley:
 
 When you finished your basic install of your Raspberry Pi install the web server apache2.
 
-Start a terminal with 'ssh pi@ip_address_of_your_Raspberry_Pi' and 'sudo apt install apache2 -y'
+Start a terminal, maybe with vnc or 'ssh pi@ip_address_of_your_Raspberry_Pi', and 'sudo apt install apache2 -y'
 
 After this you should be able to use a web browser and browse to ```http://ip_address_of_your_Raspberry_Pi/``` and see a web page.
 
@@ -700,11 +718,17 @@ Installing php is a little more work.
 
 Start a terminal with 'ssh pi@ip_address_of_your_Raspberry_Pi' and:
 ```
+ - # Add https support to apt
  - sudo apt install apt-transport-https
+ - # Get the key that was used to sign the software we are about to install
  - sudo curl -sSLo /usr/share/keyrings/deb.sury.org-php.gpg https://packages.sury.org/php/apt.gpg
+ - # Add the https internet location of the software we want to install to apt
  - sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+ - # Activate the new info in apt
  - sudo apt update
+ - # Install the php software
  - sudo apt install php8.3 php8.3-cli php8.3-{bz2,curl,mbstring,intl}
+ - # Apache also needs something to be able to use php
  - sudo apt install libapache2-mod-php8.3
 
 Create a test file:
@@ -720,18 +744,21 @@ You may increase some values in that file to allow bigger pictures to be uploade
 
 upload_max_filesize = 16M
 
-post_max_size = 20M
+post_max_size = 20M # files are base64 encoded before posting so the total post is bigger that the file
 
-activate the change :
+To activate the change when you installed libapache2-mod-php8.3 like above:
 
- - when you run php8.3-fpm you first: sudo systemctl restart php8.3-fpm
  - sudo systemctl restart apache2.service
+
+When you have an existing installation which does not use libapache2-mod-php8.3 but php8.3-fpm:
+
+ - sudo systemctl restart php8.3-fpm
 
 ### Install the web application
 
 We need to install some python modules in a virtual environment and after that the application.
 
-Start a terminal with 'ssh pi@ip_address_of_your_Raspberry_Pi' and...
+Start a terminal and...
 
  - sudo -i
  - mkdir /var/www/html/level_detection
