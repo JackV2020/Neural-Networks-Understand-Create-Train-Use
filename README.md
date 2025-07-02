@@ -790,7 +790,7 @@ Now you should be able to browse to  ```http://ip_address_of_your_Raspberry_Pi/l
 
 Next could be:
 
- - dive into the **code_improved directory**
+ - dive into the  [**code_improved directory**](./code_improved)
  - create, train and enjoy your own neural networks
  - maybe increase the number of colors in what you have now
  - look for answers to questions you have on the internet, in books, at friends
