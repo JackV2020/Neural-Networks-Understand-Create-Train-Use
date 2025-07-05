@@ -7,7 +7,7 @@ function my_error_message() {
     echo ' - upload_max_filesize: ' . ini_get('upload_max_filesize');
     echo '<br> - post_max_size      : ' . ini_get('post_max_size');
     echo '<br> - memory_limit       : ' . ini_get('memory_limit');
-    echo ("<br><br>After modifying some values remember:<br><br> - when you use fpm with php 8.3 'sudo systemctl restart php8.3-fpm'<br><br> - 'sudo systemctl restart apache2.service'");
+    echo ("<br><br>After modifying some values remember:<br><br> - when you use fpm with php 8.3 'sudo systemctl restart php8.3-fpm'<br><br> - 'else sudo systemctl restart apache2.service'");
 }
 
 // === AJAX POST: only return the result ===
