@@ -570,6 +570,16 @@ The module tensorflow-cpu does the same as tensorflow but uses the microprocesso
 
 Or for the lucky ones: 'my_venv/bin/pip install tqdm tensorflow scikit-learn ai_edge_litert'
 
+<i><b>
+On Raspberry Pi I ran into issues with a later installation and had to force to use version 1.3.0 of ai_edge_litert.
+</i></b>
+
+'my_venv/bin/pip show ai_edge_litert' showed version 1.3.0 on the June 2025 installation and 1.4.0 on the July 2025 inatallation.
+
+Release date of 1.4.0 is July 2nd 2025..... <a href="https://pypi.org/project/ai-edge-litert/#history">https://pypi.org/project/ai-edge-litert/#history</a>
+
+I uninstalled ai_edge_litert 'my_venv/bin/pip uninstall ai_edge_litert' and installed version 1.3.0 'my_venv/bin/pip install ai_edge_litert==1.3.0' and the issues were solved.
+
 ### Generate training data
 
 The first step we take is to create training data. For this we **use the script script_generate_pictures.py from the code directory**.
