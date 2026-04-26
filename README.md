@@ -308,7 +308,7 @@ So do the next:
 
     after this you run pip from your virtual environment :
 
-        source my_venv ( or source 'path-to-venv' when my_venv is not in your current directory ) 
+        source my_venv/bin/activate ( or source 'path-to-venv' when my_venv is not in your current directory ) 
         pip install numpy
         deactivate
 
@@ -699,6 +699,8 @@ You can use a web application to upload a picture and get the model outputs on t
 When you use it from a mobile you make a picture and upload that or upload a picture you made before.
 
 I use a Raspberry Pi 3B and added apache and php after installing the bookworm OS.
+
+I tried trixie but that does not work yet (2026-04-26)
 
 The processing is slooooow but it works :smiley:
 
